@@ -56,11 +56,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandConsole.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CommandConsole.Designer.cs">
+      <DependentUpon>CommandConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConsoleCommandBase.cs" />
+    <Compile Include="ConsoleCommandHideLines.cs" />
+    <Compile Include="ConsoleCommandSelectText.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHelp.Designer.cs">
+      <DependentUpon>FormHelp.cs</DependentUpon>
     </Compile>
     <Compile Include="FormOpenLog.cs">
       <SubType>Form</SubType>
@@ -68,6 +83,7 @@
     <Compile Include="FormOpenLog.Designer.cs">
       <DependentUpon>FormOpenLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="IConsoleCommand.cs" />
     <Compile Include="LogFileControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -83,8 +99,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSettings.cs" />
+    <EmbeddedResource Include="CommandConsole.resx">
+      <DependentUpon>CommandConsole.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormHelp.resx">
+      <DependentUpon>FormHelp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOpenLog.resx">
       <DependentUpon>FormOpenLog.cs</DependentUpon>

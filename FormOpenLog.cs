@@ -48,7 +48,7 @@ namespace LogReader2
 
         private void FormOpenLog_Load(object sender, EventArgs e)
         {
-           
+            
         }
 
         private void flowLayoutPanel1_ControlAdded(object sender, ControlEventArgs e)
@@ -235,6 +235,7 @@ namespace LogReader2
             }
             //}));
 
+            
             return true;
         }
 
@@ -257,6 +258,17 @@ namespace LogReader2
 
             _owner.OpenLogFile(sfi.FullPath);
             Close();
+        }
+
+        private void FormOpenLog_Activated(object sender, EventArgs e)
+        {
+            lbFiles.Focus();
+        }
+
+        private void lbFiles_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Enter)
+                OpenFile();
         }
     }
 

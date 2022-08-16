@@ -18,7 +18,7 @@ public enum ELogLevel
 
 namespace LogReader2
 {
-    public partial class Form1 : Form, CascadeParser.IParserOwner, CascadeParser.ILogPrinter, ILogFileControlOwner
+    public partial class Form1 : Form, CascadeParser.IParserOwner, CascadeParser.ILogPrinter, ILogFileControlOwner, ICommandConsoleOwner
     {
         private const string SettingFileName = "Settings.txt";
         private CSettings _settings;
@@ -28,12 +28,33 @@ namespace LogReader2
 
         public CSettings Settings => _settings;
 
+        private List<IConsoleCommand> _commands = new List<IConsoleCommand>();
+
+        public IReadOnlyCollection<IConsoleCommand> GetCommands()
+        {
+            return _commands;
+        }
+
         public Form1()
         {
             InitializeComponent();
             _serializer = new CascadeSerializer.CCascadeSerializer(this);
 
             LoadSettings();
+
+            foreach (string fn in _settings.OpenHistory)
+            {
+                miOpenHistory.DropDownItems.Add(fn, null, OpenHistoryMenu);
+            }
+
+            _commands.Add(new ConsoleCommandSelectText());
+            _commands.Add(new ConsoleCommandHideLines());
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var help_form = new FormHelp();
+            help_form.Show();
         }
 
         #region LogWindow Output
@@ -42,10 +63,16 @@ namespace LogReader2
             if (m_uiLogLinesCount > 1000)
                 ClearLog();
 
+            char[] el = Environment.NewLine.ToCharArray();
+            string text = inText.TrimEnd(el);
+
             int length = rtLog.TextLength;  // at end of text
-            rtLog.AppendText(inText);
+            if(length > 0)
+                rtLog.AppendText(Environment.NewLine);
+
+            rtLog.AppendText(text);
             rtLog.SelectionStart = length;
-            rtLog.SelectionLength = inText.Length;
+            rtLog.SelectionLength = text.Length;
             rtLog.SelectionColor = inClr;
             rtLog.SelectionStart = rtLog.TextLength;
             rtLog.SelectionLength = 0;
@@ -219,11 +246,30 @@ namespace LogReader2
         {
             AddLogToConsole($"OpenLogFile: {in_full_path}", ELogLevel.Info);
 
-            AddLogControl(in_full_path);
+            if(AddLogControl(in_full_path))
+            {
+                if(!_settings.OpenHistory.Contains(in_full_path))
+                {
+                    _settings.OpenHistory.Add(in_full_path);
+                    miOpenHistory.DropDownItems.Insert(0, new ToolStripMenuItem(in_full_path, null, OpenHistoryMenu));
+
+                    while (_settings.OpenHistory.Count > 15)
+                        _settings.OpenHistory.RemoveAt(_settings.OpenHistory.Count - 1);
+
+                    SaveSettings();
+                }
+            }
+        }
+
+        public void OpenHistoryMenu(object sender, EventArgs e)
+        {
+            ToolStripMenuItem mi = sender as ToolStripMenuItem;
+            OpenLogFile(mi.Text);
         }
 
         #endregion
 
+        #region Create and move LogFiles
         private const float _max_width_percent = 100f;
         private const float _min_width_percent = 0.01f;
 
@@ -233,15 +279,18 @@ namespace LogReader2
             return full_percent / splitContainerMainLog.Panel1.ClientSize.Width;
         }
 
-        private void AddLogControl(string in_path)
+        private bool AddLogControl(string in_path)
         {
             var control = new LogFileControl();
 
             control.BorderStyle = BorderStyle.FixedSingle;
             control.WidthPercent = _max_width_percent;
-            control.LoadFile(in_path, this);
-
-            splitContainerMainLog.Panel1.Controls.Add(control);
+            if (control.LoadFile(in_path, this))
+            {
+                splitContainerMainLog.Panel1.Controls.Add(control);
+                return true;
+            }
+            return false;
         }
 
         private void splitContainerMainLog_Panel1_Resize(object sender, EventArgs e)
@@ -314,6 +363,101 @@ namespace LogReader2
         {
             splitContainerMainLog.Panel1.Controls.Remove(control);
             LogPanelsResize();
+        }
+
+        public void OnFocusEnterLogFileControl(LogFileControl control)
+        {
+            if(_console != null)
+            {
+                Controls.Remove(_console);
+                _console = null;
+            }
+        }
+        #endregion //Create and move LogFiles
+
+        CommandConsole _console;
+        public void StartCommand(LogFileControl control, string in_text, string in_selected_text)
+        {
+            if (_console != null)
+                return;
+
+            _console = new CommandConsole();
+
+            _console.Init(this, in_text, in_selected_text, control);
+
+            Controls.Add(_console);
+            _console.BringToFront();
+        }
+
+        private void Form1_ControlAdded(object sender, ControlEventArgs e)
+        {
+            if (_console != e.Control)
+                return;
+
+            ComsoleSizeRefresh();
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            ComsoleSizeRefresh();
+        }
+
+        private void ComsoleSizeRefresh()
+        {
+            if (_console == null)
+                return;
+
+            _console.Location = new Point(Margin.Left, ClientSize.Height * 2 / 3);
+            _console.Size = new Size(ClientSize.Width - Margin.Horizontal, ClientSize.Height - _console.Location.Y - Margin.Bottom);
+        }
+
+        public void CloseCommandConsole(LogFileControl in_log_control)
+        {
+            if (_console == null)
+                return;
+
+            Controls.Remove(_console);
+            _console = null;
+
+            if (in_log_control != null)
+                in_log_control.ReturnFocus();
+        }
+
+        public IReadOnlyCollection<string> GetCommandHistory()
+        {
+            return _settings.Commands;
+        }
+
+        public void ExecuteCommandConsole(LogFileControl in_log_control, string in_command_text)
+        {
+            if (_console == null)
+                return;
+
+            Controls.Remove(_console);
+            _console = null;
+
+            if (in_log_control != null)
+                in_log_control.ReturnFocus();
+
+            bool executed = _commands.Find( (IConsoleCommand cc) =>
+                {
+                    return cc.Execute(in_command_text, in_log_control);
+                }) != null;
+
+            if (executed)
+            {
+                _settings.Commands.RemoveAll((string cmd) => { return string.Equals(cmd, in_command_text, StringComparison.InvariantCultureIgnoreCase); });
+
+                _settings.Commands.Insert(0, in_command_text);
+                while (_settings.Commands.Count > 50)
+                    _settings.Commands.RemoveAt(_settings.Commands.Count - 1);
+                SaveSettings();
+            }
+        }
+
+        private void Form1_Activated(object sender, EventArgs e)
+        {
+
         }
     }
 }

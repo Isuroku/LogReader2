@@ -30,15 +30,15 @@ namespace LogReader2
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panelPathButtons = new System.Windows.Forms.Panel();
-            this.btnAddPath = new System.Windows.Forms.Button();
-            this.btnDeletePath = new System.Windows.Forms.Button();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnPathUp = new System.Windows.Forms.Button();
             this.btnPathDown = new System.Windows.Forms.Button();
-            this.lbFiles = new System.Windows.Forms.ListBox();
+            this.btnPathUp = new System.Windows.Forms.Button();
+            this.btnDeletePath = new System.Windows.Forms.Button();
+            this.btnAddPath = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnOpenFile = new System.Windows.Forms.Button();
+            this.lbFiles = new System.Windows.Forms.ListBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -67,6 +67,63 @@ namespace LogReader2
             this.splitContainer1.SplitterDistance = 724;
             this.splitContainer1.TabIndex = 0;
             // 
+            // panelPathButtons
+            // 
+            this.panelPathButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelPathButtons.Controls.Add(this.btnPathDown);
+            this.panelPathButtons.Controls.Add(this.btnPathUp);
+            this.panelPathButtons.Controls.Add(this.btnDeletePath);
+            this.panelPathButtons.Controls.Add(this.btnAddPath);
+            this.panelPathButtons.Location = new System.Drawing.Point(3, 483);
+            this.panelPathButtons.Name = "panelPathButtons";
+            this.panelPathButtons.Size = new System.Drawing.Size(718, 35);
+            this.panelPathButtons.TabIndex = 1;
+            // 
+            // btnPathDown
+            // 
+            this.btnPathDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPathDown.Location = new System.Drawing.Point(271, 5);
+            this.btnPathDown.Name = "btnPathDown";
+            this.btnPathDown.Size = new System.Drawing.Size(75, 23);
+            this.btnPathDown.TabIndex = 3;
+            this.btnPathDown.Text = "Path Down";
+            this.btnPathDown.UseVisualStyleBackColor = true;
+            this.btnPathDown.Click += new System.EventHandler(this.btnPathDown_Click);
+            // 
+            // btnPathUp
+            // 
+            this.btnPathUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPathUp.Location = new System.Drawing.Point(190, 5);
+            this.btnPathUp.Name = "btnPathUp";
+            this.btnPathUp.Size = new System.Drawing.Size(75, 23);
+            this.btnPathUp.TabIndex = 2;
+            this.btnPathUp.Text = "Path Up";
+            this.btnPathUp.UseVisualStyleBackColor = true;
+            this.btnPathUp.Click += new System.EventHandler(this.btnPathUp_Click);
+            // 
+            // btnDeletePath
+            // 
+            this.btnDeletePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeletePath.Location = new System.Drawing.Point(89, 5);
+            this.btnDeletePath.Name = "btnDeletePath";
+            this.btnDeletePath.Size = new System.Drawing.Size(75, 23);
+            this.btnDeletePath.TabIndex = 1;
+            this.btnDeletePath.Text = "Delete Path";
+            this.btnDeletePath.UseVisualStyleBackColor = true;
+            this.btnDeletePath.Click += new System.EventHandler(this.btnDeletePath_Click);
+            // 
+            // btnAddPath
+            // 
+            this.btnAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddPath.Location = new System.Drawing.Point(8, 5);
+            this.btnAddPath.Name = "btnAddPath";
+            this.btnAddPath.Size = new System.Drawing.Size(75, 23);
+            this.btnAddPath.TabIndex = 0;
+            this.btnAddPath.Text = "Add Path";
+            this.btnAddPath.UseVisualStyleBackColor = true;
+            this.btnAddPath.Click += new System.EventHandler(this.btnAddPath_Click);
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -83,74 +140,6 @@ namespace LogReader2
             this.flowLayoutPanel1.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.flowLayoutPanel1_ControlRemoved);
             this.flowLayoutPanel1.Resize += new System.EventHandler(this.flowLayoutPanel1_Resize);
             // 
-            // panelPathButtons
-            // 
-            this.panelPathButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelPathButtons.Controls.Add(this.btnPathDown);
-            this.panelPathButtons.Controls.Add(this.btnPathUp);
-            this.panelPathButtons.Controls.Add(this.btnDeletePath);
-            this.panelPathButtons.Controls.Add(this.btnAddPath);
-            this.panelPathButtons.Location = new System.Drawing.Point(3, 483);
-            this.panelPathButtons.Name = "panelPathButtons";
-            this.panelPathButtons.Size = new System.Drawing.Size(718, 35);
-            this.panelPathButtons.TabIndex = 1;
-            // 
-            // btnAddPath
-            // 
-            this.btnAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddPath.Location = new System.Drawing.Point(8, 5);
-            this.btnAddPath.Name = "btnAddPath";
-            this.btnAddPath.Size = new System.Drawing.Size(75, 23);
-            this.btnAddPath.TabIndex = 0;
-            this.btnAddPath.Text = "Add Path";
-            this.btnAddPath.UseVisualStyleBackColor = true;
-            this.btnAddPath.Click += new System.EventHandler(this.btnAddPath_Click);
-            // 
-            // btnDeletePath
-            // 
-            this.btnDeletePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDeletePath.Location = new System.Drawing.Point(89, 5);
-            this.btnDeletePath.Name = "btnDeletePath";
-            this.btnDeletePath.Size = new System.Drawing.Size(75, 23);
-            this.btnDeletePath.TabIndex = 1;
-            this.btnDeletePath.Text = "Delete Path";
-            this.btnDeletePath.UseVisualStyleBackColor = true;
-            this.btnDeletePath.Click += new System.EventHandler(this.btnDeletePath_Click);
-            // 
-            // btnPathUp
-            // 
-            this.btnPathUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPathUp.Location = new System.Drawing.Point(190, 5);
-            this.btnPathUp.Name = "btnPathUp";
-            this.btnPathUp.Size = new System.Drawing.Size(75, 23);
-            this.btnPathUp.TabIndex = 2;
-            this.btnPathUp.Text = "Path Up";
-            this.btnPathUp.UseVisualStyleBackColor = true;
-            this.btnPathUp.Click += new System.EventHandler(this.btnPathUp_Click);
-            // 
-            // btnPathDown
-            // 
-            this.btnPathDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPathDown.Location = new System.Drawing.Point(271, 5);
-            this.btnPathDown.Name = "btnPathDown";
-            this.btnPathDown.Size = new System.Drawing.Size(75, 23);
-            this.btnPathDown.TabIndex = 3;
-            this.btnPathDown.Text = "Path Down";
-            this.btnPathDown.UseVisualStyleBackColor = true;
-            this.btnPathDown.Click += new System.EventHandler(this.btnPathDown_Click);
-            // 
-            // lbFiles
-            // 
-            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbFiles.FormattingEnabled = true;
-            this.lbFiles.Location = new System.Drawing.Point(3, 3);
-            this.lbFiles.Name = "lbFiles";
-            this.lbFiles.Size = new System.Drawing.Size(293, 472);
-            this.lbFiles.TabIndex = 0;
-            this.lbFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDoubleClick);
-            // 
             // btnOpenFile
             // 
             this.btnOpenFile.Location = new System.Drawing.Point(108, 488);
@@ -161,6 +150,18 @@ namespace LogReader2
             this.btnOpenFile.UseVisualStyleBackColor = true;
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
+            // lbFiles
+            // 
+            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbFiles.FormattingEnabled = true;
+            this.lbFiles.Location = new System.Drawing.Point(3, 3);
+            this.lbFiles.Name = "lbFiles";
+            this.lbFiles.Size = new System.Drawing.Size(293, 472);
+            this.lbFiles.TabIndex = 0;
+            this.lbFiles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lbFiles_KeyPress);
+            this.lbFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDoubleClick);
+            // 
             // FormOpenLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -169,6 +170,7 @@ namespace LogReader2
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormOpenLog";
             this.Text = "FormOpenLog";
+            this.Activated += new System.EventHandler(this.FormOpenLog_Activated);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOpenLog_FormClosed);
             this.Load += new System.EventHandler(this.FormOpenLog_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);

@@ -10,6 +10,10 @@ namespace LogReader2
         public List<string> Folders;
         public string LastSelectedFolders;
 
+        public List<string> Commands;
+
+        public List<string> OpenHistory;
+
         public int LogSplitterDistance;
         public bool LogHide;
 
@@ -17,6 +21,10 @@ namespace LogReader2
         {
             if(Folders == null)
                 Folders = new List<string>();
+            if (Commands == null)
+                Commands = new List<string>();
+            if (OpenHistory == null)
+                OpenHistory = new List<string>();
         }
 
     }

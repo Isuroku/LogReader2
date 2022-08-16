@@ -29,12 +29,15 @@ namespace LogReader2
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogFileControl));
             this.panelCaption = new System.Windows.Forms.Panel();
-            this.labelFileName = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
-            this.tbLogText = new System.Windows.Forms.TextBox();
+            this.labelFileName = new System.Windows.Forms.Label();
             this.panelSplit = new System.Windows.Forms.Panel();
+            this.tbLogText = new FastColoredTextBoxNS.FastColoredTextBox();
             this.panelCaption.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbLogText)).BeginInit();
             this.SuspendLayout();
             // 
             // panelCaption
@@ -48,16 +51,6 @@ namespace LogReader2
             this.panelCaption.Size = new System.Drawing.Size(457, 37);
             this.panelCaption.TabIndex = 0;
             // 
-            // labelFileName
-            // 
-            this.labelFileName.AutoSize = true;
-            this.labelFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelFileName.Location = new System.Drawing.Point(3, 9);
-            this.labelFileName.Name = "labelFileName";
-            this.labelFileName.Size = new System.Drawing.Size(51, 20);
-            this.labelFileName.TabIndex = 0;
-            this.labelFileName.Text = "label1";
-            // 
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -70,16 +63,15 @@ namespace LogReader2
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // tbLogText
+            // labelFileName
             // 
-            this.tbLogText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbLogText.Location = new System.Drawing.Point(3, 46);
-            this.tbLogText.Multiline = true;
-            this.tbLogText.Name = "tbLogText";
-            this.tbLogText.Size = new System.Drawing.Size(457, 649);
-            this.tbLogText.TabIndex = 1;
+            this.labelFileName.AutoSize = true;
+            this.labelFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelFileName.Location = new System.Drawing.Point(3, 9);
+            this.labelFileName.Name = "labelFileName";
+            this.labelFileName.Size = new System.Drawing.Size(51, 20);
+            this.labelFileName.TabIndex = 0;
+            this.labelFileName.Text = "label1";
             // 
             // panelSplit
             // 
@@ -95,19 +87,60 @@ namespace LogReader2
             this.panelSplit.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelSplit_MouseMove);
             this.panelSplit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelSplit_MouseUp);
             // 
+            // tbLogText
+            // 
+            this.tbLogText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLogText.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.tbLogText.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\r\n^\\s*(case|default)\\s*[^:]*" +
+    "(?<range>:)\\s*(?<range>[^;]+);";
+            this.tbLogText.AutoScrollMinSize = new System.Drawing.Size(179, 14);
+            this.tbLogText.BackBrush = null;
+            this.tbLogText.CharHeight = 14;
+            this.tbLogText.CharWidth = 8;
+            this.tbLogText.CurrentPenSize = 3;
+            this.tbLogText.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbLogText.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.tbLogText.DocumentPath = null;
+            this.tbLogText.Font = new System.Drawing.Font("Courier New", 9.75F);
+            this.tbLogText.IsReplaceMode = false;
+            this.tbLogText.Location = new System.Drawing.Point(10, 46);
+            this.tbLogText.Name = "tbLogText";
+            this.tbLogText.Paddings = new System.Windows.Forms.Padding(0);
+            this.tbLogText.SelectionChangedDelayedEnabled = false;
+            this.tbLogText.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.tbLogText.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("tbLogText.ServiceColors")));
+            this.tbLogText.Size = new System.Drawing.Size(450, 638);
+            this.tbLogText.TabIndex = 3;
+            this.tbLogText.Text = "fastColoredTextBox1";
+            this.tbLogText.Zoom = 100;
+            this.tbLogText.TextChanging += new System.EventHandler<FastColoredTextBoxNS.TextChangingEventArgs>(this.tbLogText_TextChanging);
+            this.tbLogText.Enter += new System.EventHandler(this.tbLogText_Enter);
+            // 
             // LogFileControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panelSplit);
             this.Controls.Add(this.tbLogText);
+            this.Controls.Add(this.panelSplit);
             this.Controls.Add(this.panelCaption);
             this.Name = "LogFileControl";
             this.Size = new System.Drawing.Size(478, 698);
             this.panelCaption.ResumeLayout(false);
             this.panelCaption.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbLogText)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -116,7 +149,7 @@ namespace LogReader2
         private System.Windows.Forms.Panel panelCaption;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label labelFileName;
-        private System.Windows.Forms.TextBox tbLogText;
         private System.Windows.Forms.Panel panelSplit;
+        private FastColoredTextBoxNS.FastColoredTextBox tbLogText;
     }
 }
